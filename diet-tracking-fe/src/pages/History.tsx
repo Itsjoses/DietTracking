@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../components/layouts/Header";
 import DynamicLayout from "../components/layouts/DynamicLayout";
+import { FaSearch } from "react-icons/fa";
 
 export default function History() {
     const [category,setCategory] = useState<string>("Breakfast")
@@ -9,15 +10,16 @@ export default function History() {
       }
   return (
     <div>
-      <Header menu="Home" />
+      <Header menu="History" />
       <DynamicLayout border={false}>
         <div className="mt-12">
-          <div className="">
+        <div className="w-full py-2 px-4 border border-blue-500 rounded-xl flex gap-3 items-center">
+            <FaSearch/>
             <input
               type="search"
               name=""
               id=""
-              className="w-full py-2 px-4 border border-blue-500 outline-none rounded-xl"
+              className="outline-none grow flex"
               placeholder="Search"
             />
           </div>
@@ -29,12 +31,12 @@ export default function History() {
           <div>
             <p className="text-2xl">History</p>
             <div>
-              <div className="flex my-4 bg-blue-500 rounded-3xl px-4 py-2">
+              <div className="flex my-4 bg-blue-500 rounded-3xl px-8 py-2 text-white items-center justify-between">
                 <div>
-                  <p>Fried Chicken</p>
-                  <p>270 cal, 120gr - 1 pcs</p>
+                  <p className="text-xl font-bold">Fried Chicken</p>
+                  <p className="text-sm">270 cal, 120gr - 1 pcs</p>
                 </div>
-                <div> +</div>
+                <div>10/09/2024</div>
               </div>
             </div>
           </div>

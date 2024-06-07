@@ -4,14 +4,22 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './pages/Home'
 import History from './pages/History'
+import Foods from './pages/Foods'
+import Diary from './pages/Diary/Diary'
 
 // seluruh routing ditaruh pada router
 const router = createBrowserRouter([{
   path: "/",
   element: <Home/>
 },{
-  path: "/History",
+  path: "/history",
   element: <History/>
+},{
+  path: "/foods",
+  element: <Foods/>
+},{
+  path: "/diary",
+  element: <Diary/>
 }])
 
 // gunakan RouterProvider lalu masukkan value dari router

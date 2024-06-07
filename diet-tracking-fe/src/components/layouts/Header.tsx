@@ -37,98 +37,83 @@ export default function Header({ menu }: { menu: string }) {
           Home
         </Link>
         <Link
-          to={"/menu"}
+          to={"/history"}
           className={
             (menu === "Menu" ? "text-custom-color " : "") +
             "hover:text-custom-color hover:cursor-pointer text-3xl z-50"
           }
         >
-          Menu
+          History
         </Link>
         <Link
-          to={"/"}
+          to={"/food"}
           className={
             (menu === "About" ? "text-custom-color " : "") +
             "hover:text-custom-color hover:cursor-pointer text-3xl z-50"
           }
         >
-          About
-        </Link>
-        <Link
-          to={"/"}
-          className={
-            (menu === "Sessions" ? "text-custom-color " : "") +
-            "hover:text-custom-color hover:cursor-pointer text-3xl z-50"
-          }
-        >
-          Sessions
+          Food
         </Link>
       </div>
+      <div className="drop-shadow-2xl shadow-md">
+        <DynamicLayout border={true}>
+          <div className="flex justify-between py-6 mb-2 relative">
+            <div className="flex items-center gap-4">
+              <div>
+                <RxHamburgerMenu
+                  className="text-2xl md:hidden inline-block"
+                  onClick={hamburgerToggle}
+                />
+              </div>
+              <Link to={"/"}>
 
-      <DynamicLayout border={true}>
-        <div className="flex justify-between py-6 mb-2 relative">
-          <div className="flex items-center gap-4">
-            <div>
-              <RxHamburgerMenu
-                className="text-2xl md:hidden inline-block"
-                onClick={hamburgerToggle}
-              />
+              <div className="font-Merienda text-2xl text-custom-color font-bold">
+                Diet Tracking
+              </div>
+              </Link>
             </div>
-            <div className="font-Merienda text-2xl text-custom-color font-bold">
-              Diet Tracking
+            <div className="gap-6 lg:gap-10 xl:gap-12 font-Merienda md:flex hidden">
+              <Link
+                to={"/"}
+                className={
+                  menu === "Home"
+                    ? selected
+                    : "" + "hover:text-custom-color hover:cursor-pointer"
+                }
+              >
+                Home
+              </Link>
+              <Link
+                to={"/history"}
+                className={
+                  menu === "History"
+                    ? selected
+                    : "" + "hover:text-custom-color hover:cursor-pointer"
+                }
+              >
+                History
+              </Link>
+              <Link
+                to={"/foods"}
+                className={
+                  menu === "Food"
+                    ? selected
+                    : "" + "hover:text-custom-color hover:cursor-pointer"
+                }
+              >
+                Food
+              </Link>
             </div>
-          </div>
-          <div className="gap-6 lg:gap-10 xl:gap-12 font-Merienda md:flex hidden">
             <Link
-              to={"/"}
-              className={
-                menu === "Home"
-                  ? selected
-                  : "" + "hover:text-custom-color hover:cursor-pointer"
-              }
+              to={"/login"}
+              className="bg-custom-color md:px-4 md:py-2 text-white md:text-base text-xs px-2 py-2"
             >
-              Home
-            </Link>
-            <Link
-              to={"/menu"}
-              className={
-                menu === "Menu"
-                  ? selected
-                  : "" + "hover:text-custom-color hover:cursor-pointer"
-              }
-            >
-              Menu
-            </Link>
-            <Link
-              to={"/"}
-              className={
-                menu === "About"
-                  ? selected
-                  : "" + "hover:text-custom-color hover:cursor-pointer"
-              }
-            >
-              About
-            </Link>
-            <Link
-              to={"/"}
-              className={
-                menu === "Sessions"
-                  ? selected
-                  : "" + "hover:text-custom-color hover:cursor-pointer"
-              }
-            >
-              Sessions
+              {" "}
+              Login/Register
             </Link>
           </div>
-          <Link
-            to={"/login"}
-            className="bg-custom-color md:px-4 md:py-2 text-white md:text-base text-xs px-2 py-2"
-          >
-            {" "}
-            Login/Register
-          </Link>
-        </div>
-      </DynamicLayout>
+        </DynamicLayout>
+      </div>
     </div>
   );
 }
