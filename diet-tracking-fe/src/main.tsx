@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import History from './pages/History'
 import Foods from './pages/Foods'
 import Diary from './pages/Diary/Diary'
+import Register from './pages/Register'
 
 // seluruh routing ditaruh pada router
 const router = createBrowserRouter([{
@@ -20,6 +21,9 @@ const router = createBrowserRouter([{
 },{
   path: "/diary",
   element: <Diary/>
+},{
+  path: "/register",
+  element: <Register/>
 }])
 
 // gunakan RouterProvider lalu masukkan value dari router
