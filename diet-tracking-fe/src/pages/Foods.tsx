@@ -4,10 +4,11 @@ import Header from "../components/layouts/Header";
 import { FaPlus } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import FoodCard from "../components/cards/FoodCard";
-import { apiFood } from "../api/food";
+import { apiFood, searchFood } from "../api/food";
 import { Link } from "react-router-dom";
 
 interface foods{
+  id: number,
   food_name: string,
   description: string,
   calories: number
@@ -15,14 +16,15 @@ interface foods{
 
 export default function Foods() {
   const [datas,setDatas] = useState<foods[]>([])
+  const [refresh,setRefresh] = useState<boolean>(false)
+  const [search,setSearch] = useState<string>("")
   useEffect(() => {
     const getData = async () => {
-      const data = await apiFood()
-      console.log(data);
+      const data = await searchFood({food_name: search})
       setDatas(data)
     }
     getData()
-  }, [])
+  }, [search,refresh])
 
 
   return (
@@ -39,6 +41,7 @@ export default function Foods() {
                 id=""
                 className="outline-none grow flex"
                 placeholder="Search"
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
             <div className="mt-6">
@@ -54,6 +57,8 @@ export default function Foods() {
               {datas.length > 0 ? (
                   datas.map((data) => (
                     <FoodCard
+                    setRefresh={setRefresh}
+                    id={data.id}
                     food_name={data.food_name}
                       description={data.description}
                       calories={data.calories}

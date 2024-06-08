@@ -3,7 +3,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateFoodDto } from './dto/createfood.dto';
 import { CreateCategoryDto } from './dto/createCategory.dto';
-
+import { HistoryDietDto } from './dto/historyDiet.dto';
+import { SearchFoodDto } from './dto/searchFood.dto';
+import { log } from 'console';
 @Injectable()
 export class FoodService {
   constructor(private prisma: PrismaService) {}
@@ -54,18 +56,54 @@ export class FoodService {
     return deletedFood;
   }
 
-  async findFood(req: any){
-    const findFood = await this.prisma.food.findMany({
-      where:{userId: Number(req.user.sub) },
-      select:{
-        id: true,
-        food_name: true,
-        description: true,
-        calories: true,
-      }
-    })
-    return findFood
+  async deleteDietFood(foodId: number, req: any) {
+    log
+    // Delete the food item from the database
+    const deletedFood = await this.prisma.dietDiary.delete({
+      where: { id: Number(foodId), userId: req.user.id },
+    });
+    if (!deletedFood) {
+      throw new NotFoundException('Food not found');
+    }
+
+    return deletedFood;
   }
+
+  async findFood( req: any) {
+    const findFood = await this.prisma.food.findMany({
+        where: {
+            userId: Number(req.user.sub)
+        },
+        select: {
+            id: true,
+            food_name: true,
+            description: true,
+            calories: true,
+        }
+    });
+    return findFood;
+}
+
+
+async searchFood(searchFoodDto: SearchFoodDto, req: any) {
+  const {food_name} = searchFoodDto
+  console.log(food_name);
+  
+  const findFood = await this.prisma.food.findMany({
+      where: {
+          userId: Number(req.user.sub),
+          food_name: { contains: food_name }
+      },
+      select: {
+          id: true,
+          food_name: true,
+          description: true,
+          calories: true,
+      }
+  });
+  return findFood;
+}
+
 
   async createDietDiary(DietDiaryDto: DietDiary, req: any) {
     const { food_id,category } = DietDiaryDto;
@@ -89,13 +127,41 @@ export class FoodService {
 
   async createCategory() {
     const allCategory = ['Breakfast','Lunch','Dinner']
-    const allData = allCategory.map(async (cat) => {
+    for (const cat of allCategory) {
       await this.prisma.category.create({
         data: {
           category_name: cat,
         },
       });
+    }
+  }
+
+  async viewDietDiary(req:any){
+
+    const allDietDiary = await this.prisma.dietDiary.findMany({
+      where:{
+        userId: Number(req.user.sub),
+      },
+      include: {
+        category: true,
+      },
     })
-    return allData;
+
+    return allDietDiary
+  }
+
+  async viewHistoryCategory(historyDietDto: HistoryDietDto,req:any){
+    const {category_id} = historyDietDto
+    const dietHistoryCategory = await this.prisma.dietDiary.findMany({
+      where:{
+        userId: Number(req.user.sub),
+        categoryId: Number(category_id)
+      },
+      orderBy: {
+        date: 'desc' // Order by date in descending order
+      }
+    })
+
+    return dietHistoryCategory
   }
 }

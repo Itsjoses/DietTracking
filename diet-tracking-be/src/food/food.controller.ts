@@ -1,9 +1,11 @@
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateFoodDto } from './dto/createfood.dto';
 import { FoodService } from './food.service';
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Req, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { DietDiary } from './dto/dietDiary.dto';
 import { CreateCategoryDto } from './dto/createCategory.dto';
+import { HistoryDietDto } from './dto/historyDiet.dto';
+import { SearchFoodDto } from './dto/searchFood.dto';
 
 @Controller('food')
 export class FoodController {
@@ -33,6 +35,18 @@ export class FoodController {
         return this.foodService.findFood(req)
     }
 
+    @UseGuards(AuthGuard)
+    @Post('/searchfood')
+    async searchFood(@Body() searchFoodDto:SearchFoodDto,@Request() req:any){
+        return this.foodService.searchFood(searchFoodDto,req)
+    }
+
+    @UseGuards(AuthGuard)
+    @Get('/viewdietdiary')
+    viewDietDiary(@Request() req:any){
+      return this.foodService.viewDietDiary(req)
+    }
+
 
     @UseGuards(AuthGuard)
     @Post('/createdietdiary')
@@ -43,6 +57,20 @@ export class FoodController {
     @Get('/createcategory')
     crateCategory(){
       return this.foodService.createCategory()
+    }
+
+    @UseGuards(AuthGuard)
+    @Post('/viewHistory')
+    viewHistoryCategory(@Body() data: HistoryDietDto,@Request() req:any) {
+      console.log(data);
+      
+      return this.foodService.viewHistoryCategory(data,req)
+    }
+
+    @UseGuards(AuthGuard)
+    @Delete('/deletedietfood/:id')
+    async deleteDietFood(@Param('id') id: number,@Request() req:any){
+        return this.foodService.deleteDietFood(id,req)
     }
 
 }

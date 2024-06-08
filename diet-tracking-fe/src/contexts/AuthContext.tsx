@@ -30,7 +30,6 @@ export default function AuthContext({children}: AuthType) {
           if (jwtLocal) {
             try {
               const getUsername = await apiCheckUsername()
-              console.log(getUsername);
               
               if(getUsername !== user){
                 cookies.set("username", getUsername);

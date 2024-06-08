@@ -29,6 +29,7 @@ export default function Register() {
   const [pages, setPages] = useState<number>(0);
   const {setUser } = useUser();
   const navigate = useNavigate();
+  const [error, setError] = useState<string>("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -55,9 +56,9 @@ export default function Register() {
     <div className="h-screen max-w-screen">
       <DynamicLayout border={true}>
         <div className="flex justify-between py-6 mb-2">
-          <div className="font-Merienda text-2xl text-custom-color font-bold">
+          <Link to={"/"} className="font-Merienda text-2xl text-custom-color font-bold">
             Diet Tracking
-          </div>
+          </Link>
         </div>
       </DynamicLayout>
       {pages === 0 ? (
@@ -69,7 +70,7 @@ export default function Register() {
                 <span className="text-custom-color ">Hi,</span> Welcome back{" "}
                 <PiHandWaving />
               </div>
-              <p>1/2</p>
+              <p>1/3</p>
             </div>
             <form className="flex flex-col gap-6">
               <div>
@@ -77,7 +78,7 @@ export default function Register() {
                 <input
                   type="text"
                   className="py-3 px-4 w-full rounded-md border border-custom-color"
-                  placeholder="E.g. Josesusanto@gmail.com"
+                  placeholder="E.g. windah@gmail.com"
                   onChange={handleChange}
                   name="username"
                 />
@@ -87,7 +88,7 @@ export default function Register() {
                 <input
                   type="email"
                   className="py-3 px-4 w-full rounded-md border border-custom-color"
-                  placeholder="E.g. Josesusanto@gmail.com"
+                  placeholder="E.g. windah@gmail.com"
                   onChange={handleChange}
                   name="email"
                 />
@@ -102,10 +103,19 @@ export default function Register() {
                   name="password"
                 />
               </div>
+              {(error !== "" )? (
+                <p className="text-red-500 text-center">{error}</p>
+              ): <></>}
               <div
                 className="w-full bg-custom-color text-white py-3 rounded-md"
                 onClick={(e: any) => {
                   e.preventDefault();
+                  if (!data.username || !data.email || !data.password) {
+                    setError("All fields must be filled");
+                    return;
+                  }else{
+                    setError("")
+                  }
                   setPages(1);
                 }}
               >
@@ -130,7 +140,7 @@ export default function Register() {
                   <span className="text-custom-color ">Hi,</span> Welcome back{" "}
                   <PiHandWaving />
                 </div>
-                <p>1/2</p>
+                <p>2/3</p>
               </div>
               <form className="flex flex-col gap-6">
                 <div>
@@ -211,7 +221,7 @@ export default function Register() {
                   <span className="text-custom-color ">Hi,</span> Welcome back{" "}
                   <PiHandWaving />
                 </div>
-                <p>1/2</p>
+                <p>3/3</p>
               </div>
               <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-4">

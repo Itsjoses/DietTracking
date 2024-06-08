@@ -23,7 +23,6 @@ export default function CreateFood() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const responseData: any = await apiCreateFood(data)
-    console.log(responseData);
     
     navigate('/foods');
   };

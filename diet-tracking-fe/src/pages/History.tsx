@@ -1,13 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/layouts/Header";
 import DynamicLayout from "../components/layouts/DynamicLayout";
 import { FaSearch } from "react-icons/fa";
+import { apiViewHistoryDiet } from "../api/food";
+
+interface Data{
+  food_name: string,
+  description: string,
+  date: string
+}
 
 export default function History() {
     const [category,setCategory] = useState<string>("Breakfast")
+    const [allData,setAllData] = useState<Data[]>([])
     const handleChange = (categoryName: string) => {
         setCategory(categoryName)
       }
+
+      useEffect(() => {
+
+        const getHistory = async () => {
+          const selectedCategory: number = (category  === "Breakfast") ? 1 : (category  === "Lunch") ? 2 : 3
+          
+          const responseAllData = await apiViewHistoryDiet({category_id: selectedCategory})
+          
+          setAllData(responseAllData.data)
+        }
+        getHistory()
+       
+      },[category])
   return (
     <div>
       <Header menu="History" />
@@ -31,13 +52,17 @@ export default function History() {
           <div>
             <p className="text-2xl">History</p>
             <div>
-              <div className="flex my-4 bg-blue-500 rounded-3xl px-8 py-2 text-white items-center justify-between">
+              {allData.map((data, index) => (
+
+              <div key={index} className="flex my-4 bg-blue-500 rounded-3xl px-8 py-2 text-white items-center justify-between">
                 <div>
-                  <p className="text-xl font-bold">Fried Chicken</p>
-                  <p className="text-sm">270 cal, 120gr - 1 pcs</p>
+                  <p className="text-xl font-bold">{data.food_name}</p>
+                  <p className="text-sm">{data.description}</p>
                 </div>
-                <div>10/09/2024</div>
+                <div>{new Date(data.date).toLocaleString()}</div>
               </div>
+              ))}
+
             </div>
           </div>
         </div>

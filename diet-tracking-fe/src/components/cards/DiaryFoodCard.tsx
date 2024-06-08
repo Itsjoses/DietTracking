@@ -8,6 +8,8 @@ interface HomeTrustAttribute {
   description: string;
   calories: number;
   category_id: number
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+  setPopup: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function DiaryFoodCard({
@@ -15,13 +17,16 @@ export default function DiaryFoodCard({
   food_name,
   description,
   calories,
-  category_id
+  category_id,
+  setRefresh,
+  setPopup
 }: HomeTrustAttribute) {
 
     const addDietDiary= async () => {
-        const responseData = await apiCreateDietDiary({food_id: id,category:category_id })
-        console.log(responseData);
-        
+        await apiCreateDietDiary({food_id: id,category:category_id })
+        setRefresh(prev => !prev)
+        setPopup(prev => !prev)
+
     }
 
   return (

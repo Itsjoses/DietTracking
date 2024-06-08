@@ -43,6 +43,13 @@ export class AuthController {
       return this.authService.changeBmi(changeBmiDto,req);
     }
 
+    @UseGuards(AuthGuard)
+    @Get('/getBmi')
+    @UsePipes(ValidationPipe)
+    getTotalBMI(@Request() req:any) {
+      return this.authService.getTotalBMI(req);
+    }
+
     @Get("/me")
     @UseGuards(AuthGuard)
     @Get()

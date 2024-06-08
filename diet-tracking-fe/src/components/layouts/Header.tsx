@@ -6,17 +6,24 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
 import { useUser } from "../../contexts/AuthContext";
+import { unsetToken } from "../../libs/auth";
+import { useNavigate } from "react-router-dom";
 var selected =
   "text-custom-color relative before:absolute before:w-2 before:h-2 before:rounded-full before:lg:-bottom-2 before:md:-bottom-1 before:left-1/2 before:bg-custom-color before:-translate-x-1/2 before:-translate-y-1/2";
 export default function Header({ menu }: { menu: string }) {
   const [hamburger, setHamburger] = useState<boolean>(false);
-  const { user } = useUser();
+  const { user,setUser } = useUser();
+  const navigate = useNavigate();
   const hamburgerToggle = () => {
     setHamburger((prevHamburger) => !prevHamburger);
   };
 
   const [profileSide, setProfileSide] = useState<boolean>(false);
-
+  const logOut = () => {
+    unsetToken()
+    navigate("/login")
+    setUser("")
+  }
   return (
     <div>
       <div
@@ -65,7 +72,8 @@ export default function Header({ menu }: { menu: string }) {
 
               <div className="absolute w-52 h-fit  border bg-white right-0 top-full px-3 py-4 flex flex-col gap-3 shadow-md">
               <Link to={"/profile"}><p className="hover:bg-gray-300 rounded-md py-2 px-4 cursor-pointer transition-all delay-100 ">Profile</p></Link>
-              <p className="hover:bg-gray-300 rounded-md py-2 px-4 cursor-pointer transition-all delay-100 ">BMI Status</p>
+              <Link to={"/bmi"} className="hover:bg-gray-300 rounded-md py-2 px-4 cursor-pointer transition-all delay-100 ">BMI Status</Link>
+              <div className="hover:bg-gray-300 rounded-md py-2 px-4 cursor-pointer transition-all delay-100" onClick={logOut}>LogOut</div>
             </div>
               )}
             <div className="flex justify-between py-6 mb-2 relative">

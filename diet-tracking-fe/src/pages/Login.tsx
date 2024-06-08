@@ -17,14 +17,18 @@ export default function Login() {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-
+  const [error, setError] = useState<string>("");
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const responseData: any = await apiLogin(data)
-    responseData
-    setUser(responseData.data.username);
-    setToken(responseData.data, navigate);
+    try {
+      const responseData: any = await apiLogin(data)
+      setUser(responseData.data.username);
+      setToken(responseData.data, navigate);
+    } catch (error) {
+      setError("invalid Email and Password")
+    }
+
   };
 
   return (
@@ -33,9 +37,9 @@ export default function Login() {
     <div className="h-screen max-w-screen">
       <DynamicLayout border={true}>
         <div className="flex justify-between py-6 mb-2">
-          <div className="font-Merienda text-2xl text-custom-color font-bold">
-            Eimi Sushi
-          </div>
+          <Link to={"/"} className="font-Merienda text-2xl text-custom-color font-bold">
+            Diet Tracking
+          </Link>
         </div>
       </DynamicLayout>
       <div className=" w-full flex justify-center items-center mt-20">
@@ -51,7 +55,7 @@ export default function Login() {
               <input
                 type="text"
                 className="py-3 px-4 w-full rounded-md border border-custom-color"
-                placeholder="E.g. Josesusanto@gmail.com"
+                placeholder="E.g. windah@gmail.com"
                 name="email"
                 onChange={handleChange}
               />
@@ -66,6 +70,11 @@ export default function Login() {
                 onChange={handleChange}
               />
             </div>
+            {(error !== "") ? (
+              
+              <p className="text-red-500 text-center">{error}</p>
+               ) : <></>
+            }
             <button
               type="submit"
               className="w-full bg-custom-color text-white py-3 rounded-md"

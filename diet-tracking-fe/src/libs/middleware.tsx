@@ -76,6 +76,7 @@ export const Public = ({ children }: MiddlewareType) => {
     useEffect(() => {
       const JWTPublic = async () => {
         const jwt = getTokenFromLocalCookie()
+        
         if (jwt) {
           try {
             await axiosHttpRequest({

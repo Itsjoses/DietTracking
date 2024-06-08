@@ -88,6 +88,23 @@ export const apiGetProfile = async () => {
   }
 };
 
+export const apiGetBmi = async () => {
+  const jwtLocal = getTokenFromLocalCookie();
+  try {
+    const responseData = await axiosHttpRequest({
+      endpoint: `auth/getBmi`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtLocal}`,
+      },
+      method: "GET",
+    });
+    return responseData.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const apiSetProfile = async (data: {
   username: string;
   email: string;
