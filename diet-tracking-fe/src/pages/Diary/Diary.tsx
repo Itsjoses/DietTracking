@@ -4,9 +4,29 @@ import Header from "../../components/layouts/Header";
 import DynamicLayout from "../../components/layouts/DynamicLayout";
 import "./Diary.css";
 import { FaPlus } from "react-icons/fa";
+import { apiCreateDietDiary } from "../../api/food";
+import FoodPopup from "../../components/popup/FoodPopup";
+import { useState } from "react";
+
 export default function Diary() {
+  // const
+  // const createNewDiary = async (category : string) => {
+  //   const createDietDiary = await apiCreateDietDiary()
+  // }
+
+  const [popup,setPopup] = useState<boolean>(false)
+  const [categoryId,setCategoryId] = useState<number>(0)
+  const handlePopup = (category: number) => {
+    setPopup(prev => ! prev)
+    setCategoryId(category)
+  }
+
   return (
     <div>
+      {popup && (
+
+      <FoodPopup setPopup={setPopup} categoryId={categoryId} />
+      )}
       <Header menu="Home" />
       <DynamicLayout border={false}>
         <div className="flex my-12 w-3/5  mx-auto gap-6">
@@ -46,8 +66,7 @@ export default function Diary() {
             <div className="flex items-center gap-3">
               <p className="text-2xl font-bold">Breakfast</p>
               <div className="bg-red-500 p-1 rounded-md cursor-pointer">
-              <FaPlus className="text-lg "/>
-
+                <FaPlus className="text-lg" onClick={() => handlePopup(1)} />
               </div>
             </div>
             <p>0</p>
@@ -67,8 +86,7 @@ export default function Diary() {
             <div className="flex items-center gap-3">
               <p className="text-2xl font-bold">Lunch</p>
               <div className="bg-red-500 p-1 rounded-md cursor-pointer">
-              <FaPlus className="text-lg "/>
-
+                <FaPlus className="text-lg " onClick={() => handlePopup(2)}/>
               </div>
             </div>
             <p>0</p>
@@ -88,8 +106,7 @@ export default function Diary() {
             <div className="flex items-center gap-3">
               <p className="text-2xl font-bold">Dinner</p>
               <div className="bg-red-500 p-1 rounded-md cursor-pointer">
-              <FaPlus className="text-lg "/>
-
+                <FaPlus className="text-lg " onClick={() => handlePopup(3)}/>
               </div>
             </div>
             <p>0</p>

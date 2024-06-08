@@ -1,5 +1,4 @@
 export class DietDiary{
-    readonly user: number;
-    readonly food: number;
-
+    readonly food_id: number
+    readonly category: number
 }

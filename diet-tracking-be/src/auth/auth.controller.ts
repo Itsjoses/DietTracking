@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
 import { SignInDto } from './dto/signin.dto';
 import { AuthGuard } from './auth.guard';
+import { ChangeProfileDto } from './dto/changeprofile.dto';
+import { ChangeBmiDto } from './dto/changebmi.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -10,7 +12,7 @@ export class AuthController {
 
     @Post('/signup')
     @UsePipes(ValidationPipe)
-    signUp(@Body() signUpDto: SignUpDto): Promise<{ access_token: string }> {
+    signUp(@Body() signUpDto: SignUpDto) {
       return this.authService.signUp(signUpDto);
     }
 
@@ -20,11 +22,32 @@ export class AuthController {
       return this.authService.signIn(signInDto);
     }
 
-    @Get("/testing")
+    @UseGuards(AuthGuard)
+    @Get('/profile')
+    @UsePipes(ValidationPipe)
+    getProfile(@Request() req:any) {
+      return this.authService.getProfile(req);
+    }
+
+    @UseGuards(AuthGuard)
+    @Post('/changeprofile')
+    @UsePipes(ValidationPipe)
+    changeProfile(@Body() changeProfileDto:ChangeProfileDto,@Request() req:any) {
+      return this.authService.changeProfile(changeProfileDto,req);
+    }
+
+    @UseGuards(AuthGuard)
+    @Post('/changebmi')
+    @UsePipes(ValidationPipe)
+    changeBmi(@Body() changeBmiDto:ChangeBmiDto,@Request() req:any) {
+      return this.authService.changeBmi(changeBmiDto,req);
+    }
+
+    @Get("/me")
     @UseGuards(AuthGuard)
     @Get()
     testingApi(@Request() req:any){
-      return req.user
+      return this.authService.getMe(req)
     }
 
 

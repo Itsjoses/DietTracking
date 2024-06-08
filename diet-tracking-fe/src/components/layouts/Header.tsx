@@ -5,14 +5,17 @@ import { CgProfile } from "react-icons/cg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { useState } from "react";
+import { useUser } from "../../contexts/AuthContext";
 var selected =
   "text-custom-color relative before:absolute before:w-2 before:h-2 before:rounded-full before:lg:-bottom-2 before:md:-bottom-1 before:left-1/2 before:bg-custom-color before:-translate-x-1/2 before:-translate-y-1/2";
 export default function Header({ menu }: { menu: string }) {
   const [hamburger, setHamburger] = useState<boolean>(false);
-
+  const { user } = useUser();
   const hamburgerToggle = () => {
     setHamburger((prevHamburger) => !prevHamburger);
   };
+
+  const [profileSide, setProfileSide] = useState<boolean>(false);
 
   return (
     <div>
@@ -57,60 +60,76 @@ export default function Header({ menu }: { menu: string }) {
       </div>
       <div className="drop-shadow-2xl shadow-md">
         <DynamicLayout border={true}>
-          <div className="flex justify-between py-6 mb-2 relative">
-            <div className="flex items-center gap-4">
-              <div>
-                <RxHamburgerMenu
-                  className="text-2xl md:hidden inline-block"
-                  onClick={hamburgerToggle}
-                />
-              </div>
-              <Link to={"/"}>
+          <div className="relative h-full">
+            {profileSide && (
 
-              <div className="font-Merienda text-2xl text-custom-color font-bold">
-                Diet Tracking
+              <div className="absolute w-52 h-fit  border bg-white right-0 top-full px-3 py-4 flex flex-col gap-3 shadow-md">
+              <Link to={"/profile"}><p className="hover:bg-gray-300 rounded-md py-2 px-4 cursor-pointer transition-all delay-100 ">Profile</p></Link>
+              <p className="hover:bg-gray-300 rounded-md py-2 px-4 cursor-pointer transition-all delay-100 ">BMI Status</p>
+            </div>
+              )}
+            <div className="flex justify-between py-6 mb-2 relative">
+              <div className="flex items-center gap-4">
+                <div>
+                  <RxHamburgerMenu
+                    className="text-2xl md:hidden inline-block"
+                    onClick={hamburgerToggle}
+                  />
+                </div>
+                <Link to={"/"}>
+                  <div className="font-Merienda text-2xl text-custom-color font-bold">
+                    Diet Tracking
+                  </div>
+                </Link>
               </div>
-              </Link>
+              <div className="gap-6 lg:gap-10 xl:gap-12 font-Merienda md:flex hidden">
+                <Link
+                  to={"/"}
+                  className={
+                    menu === "Home"
+                      ? selected
+                      : "" + "hover:text-custom-color hover:cursor-pointer"
+                  }
+                >
+                  Home
+                </Link>
+                <Link
+                  to={"/history"}
+                  className={
+                    menu === "History"
+                      ? selected
+                      : "" + "hover:text-custom-color hover:cursor-pointer"
+                  }
+                >
+                  History
+                </Link>
+                <Link
+                  to={"/foods"}
+                  className={
+                    menu === "Food"
+                      ? selected
+                      : "" + "hover:text-custom-color hover:cursor-pointer"
+                  }
+                >
+                  Food
+                </Link>
+              </div>
+              {user ? (
+                <div className="flex items-center gap-5">
+                  <CgProfile className="text-3xl cursor-pointer" onClick={() => {
+                    setProfileSide(prev => !prev)
+                  }}/>
+                </div>
+              ) : (
+                <Link
+                  to={"/login"}
+                  className="bg-custom-color md:px-4 md:py-2 text-white md:text-base text-xs px-2 py-2"
+                >
+                  {" "}
+                  Login/Register
+                </Link>
+              )}
             </div>
-            <div className="gap-6 lg:gap-10 xl:gap-12 font-Merienda md:flex hidden">
-              <Link
-                to={"/"}
-                className={
-                  menu === "Home"
-                    ? selected
-                    : "" + "hover:text-custom-color hover:cursor-pointer"
-                }
-              >
-                Home
-              </Link>
-              <Link
-                to={"/history"}
-                className={
-                  menu === "History"
-                    ? selected
-                    : "" + "hover:text-custom-color hover:cursor-pointer"
-                }
-              >
-                History
-              </Link>
-              <Link
-                to={"/foods"}
-                className={
-                  menu === "Food"
-                    ? selected
-                    : "" + "hover:text-custom-color hover:cursor-pointer"
-                }
-              >
-                Food
-              </Link>
-            </div>
-            <Link
-              to={"/login"}
-              className="bg-custom-color md:px-4 md:py-2 text-white md:text-base text-xs px-2 py-2"
-            >
-              {" "}
-              Login/Register
-            </Link>
           </div>
         </DynamicLayout>
       </div>

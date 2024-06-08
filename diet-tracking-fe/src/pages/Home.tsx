@@ -7,11 +7,13 @@ import { GiCampCookingPot } from "react-icons/gi";
 import { MdRoomService } from "react-icons/md";
 import { TbTargetArrow } from "react-icons/tb";
 import { CiViewList } from "react-icons/ci";
+import DiaryCard from "../components/cards/DiaryCard";
+import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <div>
       <Header menu="Home" />
-      <DynamicLayout border={false}>
+      {/* <DynamicLayout border={false}>
         <div className="py-8 flex-col-reverse md:flex-row flex items-center">
           <div className="w-4/5 md:w-1/2 flex flex-col gap-4">
             <p className="md:w-11/12 w-11/12 font-Merienda text-custom-color xl:text-5xl lg:text-4xl md:text-3xl text-2xl font-bold">
@@ -33,6 +35,16 @@ export default function Home() {
               alt=""
               className="object-contain xl:w-8/12 xl:h-8/12 md:w-9/12 md:h-9/12 w-5/12 h-5/12"
             />
+          </div>
+        </div>
+      </DynamicLayout> */}
+      <DynamicLayout border={false}>
+        <div className="my-8">
+          <DiaryCard />
+          <div className="text-end flex justify-center w-full">
+            <div className="w-4/5 flex justify-end">
+              <Link to={"/diary"} className="border-b border-black w-fit text-custom-color cursor-pointer">View More</Link>
+            </div>
           </div>
         </div>
       </DynamicLayout>

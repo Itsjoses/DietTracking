@@ -7,28 +7,49 @@ import History from './pages/History'
 import Foods from './pages/Foods'
 import Diary from './pages/Diary/Diary'
 import Register from './pages/Register'
+import AuthContext from './contexts/AuthContext'
+import Middleware from './libs/middleware'
+import Login from './pages/Login'
+import CreateFood from './pages/CreateFood'
+import Profile from './pages/Profile'
+import Bmi from './pages/Bmi'
 
 // seluruh routing ditaruh pada router
 const router = createBrowserRouter([{
   path: "/",
-  element: <Home/>
+  element: <Middleware.Public><Home/></Middleware.Public>
 },{
   path: "/history",
-  element: <History/>
+  element: <Middleware.Auth><History/></Middleware.Auth>
 },{
   path: "/foods",
-  element: <Foods/>
+  element: <Middleware.Auth><Foods/></Middleware.Auth>
 },{
   path: "/diary",
-  element: <Diary/>
+  element: <Middleware.Auth><Diary/></Middleware.Auth>
 },{
   path: "/register",
-  element: <Register/>
+  element: <Middleware.Guest><Register/></Middleware.Guest>
+},{
+  path: "/login",
+  element: <Middleware.Guest><Login/></Middleware.Guest>
+},{
+  path: "/createfood",
+  element: <Middleware.Auth><CreateFood/></Middleware.Auth>
+},{
+  path: "/profile",
+  element: <Middleware.Auth><Profile/></Middleware.Auth>
+},{
+  path: "/bmi",
+  element: <Bmi/>
 }])
 
 // gunakan RouterProvider lalu masukkan value dari router
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <AuthContext>
+
     <RouterProvider router={router}/>
+    </AuthContext>
   </React.StrictMode>,
 )

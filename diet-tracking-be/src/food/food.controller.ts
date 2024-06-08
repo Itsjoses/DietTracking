@@ -3,6 +3,7 @@ import { CreateFoodDto } from './dto/createfood.dto';
 import { FoodService } from './food.service';
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Request, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { DietDiary } from './dto/dietDiary.dto';
+import { CreateCategoryDto } from './dto/createCategory.dto';
 
 @Controller('food')
 export class FoodController {
@@ -26,11 +27,22 @@ export class FoodController {
         return this.foodService.deleteFood(id,req)
     }
 
+    @UseGuards(AuthGuard)
+    @Get('/findfood')
+    async findFood(@Request() req:any){
+        return this.foodService.findFood(req)
+    }
+
 
     @UseGuards(AuthGuard)
     @Post('/createdietdiary')
     createDietDiary(@Body() dietDiary: DietDiary,@Request() req:any) {
       return this.foodService.createDietDiary(dietDiary,req)
+    }
+
+    @Get('/createcategory')
+    crateCategory(){
+      return this.foodService.createCategory()
     }
 
 }

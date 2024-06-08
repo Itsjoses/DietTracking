@@ -6,4 +6,6 @@ export class CreateFoodDto{
 
     @IsNotEmpty()
     readonly description: string;
+
+    readonly calories: number;
 }

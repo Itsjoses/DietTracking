@@ -18,6 +18,8 @@ model User{
   username String
   email String @unique
   password String
+  dob DateTime
+  gender String
   tall Int
   weight Int
   plan Int
@@ -32,6 +34,12 @@ model Food{
   userId Int
   food_name String
   description String
+  calories Int
+}
+
+model Category{
+  id Int @id @default(autoincrement())
+  category_name String
 
   dietDiary DietDiary[]
 }
@@ -40,7 +48,10 @@ model DietDiary {
   id          Int      @id @default(autoincrement())
   user        User     @relation(fields: [userId], references: [id])
   userId      Int
-  food        Food     @relation(fields: [foodId], references: [id]) // Menambahkan relasi ke model Food
-  foodId      Int
+  food_name String
+  description String
+  calories Int
+  category        Category     @relation(fields: [categoryId], references: [id])
+  categoryId      Int
   date        DateTime @default(now())
 }
